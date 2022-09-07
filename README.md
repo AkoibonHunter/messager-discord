@@ -4,7 +4,7 @@ bot discord pour faire passer les messages entre les différents peuples pour JD
 
 ## prérequis
 
-Il faut avoir un `TOKEN` discord (création d'une APP puis création d'un bot), tout est expliqué ici :
+Il faut avoir un `TOKEN` discord (création d'une APP puis création d'un bot). De plus, le bot doit être ajouté au serveur Discord avec les bon droits, tout est expliqué ici :
 - https://realpython.com/how-to-make-a-discord-bot-python/
 
 ## configuration :

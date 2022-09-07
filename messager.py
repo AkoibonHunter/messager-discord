@@ -1,5 +1,4 @@
 # Author : Brother
-import inspect
 import discord
 import json
 import logging

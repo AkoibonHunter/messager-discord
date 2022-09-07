@@ -1,5 +1,7 @@
 #enlever le TOKEN
 TOKEN.txt
+droit_de_parler.json
+groupes_de_discussion.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

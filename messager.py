@@ -2,24 +2,31 @@
 import os
 import inspect
 import discord
+import json
+
+#TODO librairie de logs : création d'un fichier de logs sur le fonctionnement+ fichier erreur séparé plutôt que des print
 
 # -------------------------------
 # ATTENTION :
 # le token du bot doit se trouver dans un fichier TOKEN.txt (ou écrit en dur dans le code)
 TOKEN = open('TOKEN.txt').read().strip()
+# un fichier droit_de_parler.json doit se trouver à la racine (voir fichier example)
+droit_de_parler_fichier="droit_de_parler.json"
+# un fichier groupes_de_discussion.json doit se trouver à la racien (voir fichier example)
+groupes_de_discussion_fichier="groupes_de_discussion.json"
 # -------------------------------
 
-#TODO librairie de logs : création d'un fichier de logs sur le fonctionnement+ fichier erreur séparé plutôt que des print
+def reload_droit_et_groupe():
+    global droit_de_parler
+    global groupes_de_discussion
+    droit_de_parler=json.load(open(droit_de_parler_fichier))
+    groupes_de_discussion=json.load(open(groupes_de_discussion_fichier))["groupes"]
 
-droit_de_parler = {
-    'orc-gordunn' : ['elf-truc','homme-poule','conseil-havresac'],
-    'elf-truc' : ['orc-gordunn','conseil-havresac'],
-    'homme-poule' : ['orc-gordunn','conseil-havresac'],
-    'homme-bidulle' : []
-}
-groupes_de_discussion = ['conseil-havresac']
+# on charge les droit_de_parler et groupes_de_discussion à partir du fichier
+reload_droit_et_groupe()
 
 def verifier_droit_parler(parleur,ecouteur):
+    reload_droit_et_groupe()
     if parleur in droit_de_parler:
         return ecouteur in droit_de_parler[parleur]
     else:
@@ -61,6 +68,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if not message.author.bot:
+        reload_droit_et_groupe()
         if len(f"{message.content}") > 0:
             print(f'channel:{message.channel} message from {message.author}: {message.content}')
 

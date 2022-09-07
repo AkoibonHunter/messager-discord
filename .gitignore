@@ -2,6 +2,7 @@
 TOKEN.txt
 droit_de_parler.json
 groupes_de_discussion.json
+bot.log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

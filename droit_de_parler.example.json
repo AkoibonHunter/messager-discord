@@ -1,6 +1,6 @@
 {
-    "orc-gordunn" : ["elf-truc","homme-poule","conseil-havresac"],
-    "elf-truc" : ["orc-gordunn","conseil-havresac"],
-    "homme-poule" : ["orc-gordunn","conseil-havresac"],
+    "orc-vroum" : ["elf-truc","homme-poule","conseil-havresac"],
+    "elf-truc" : ["orc-vroum","conseil-havresac"],
+    "homme-poule" : ["orc-vroum","conseil-havresac"],
     "homme-bidulle" : []
 }

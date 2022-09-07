@@ -9,9 +9,9 @@ Il faut avoir un `TOKEN` discord (création d'une APP puis création d'un bot), 
 
 ## configuration :
 
-- le token du bot doit se trouver dans un fichier TOKEN.txt (ou écrit en dur dans le code)
-- un fichier droit_de_parler.json doit se trouver à la racine (voir fichier example)
-- un fichier groupes_de_discussion.json doit se trouver à la racien (voir fichier example)
+- le token du bot doit se trouver dans un fichier `TOKEN.txt` dans le repertoire de lancement (ou écrit en dur dans le code)
+- un fichier `droit_de_parler.json` dans le repertoire de lancement (voir fichier d'example)
+- un fichier `groupes_de_discussion.json` dans le repertoire de lancement (voir fichier d'example)
 
 ## lancement
 

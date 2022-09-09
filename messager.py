@@ -23,12 +23,19 @@ def reload_droit_et_groupe():
 # on charge les droit_de_parler et groupes_de_discussion à partir du fichier
 reload_droit_et_groupe()
 
+
 def verifier_droit_parler(parleur,ecouteur):
-    reload_droit_et_groupe()
-    if parleur in droit_de_parler:
-        return ecouteur in droit_de_parler[parleur]
-    else:
-        return False
+    try :
+        reload_droit_et_groupe()
+        if parleur in droit_de_parler:
+            if ecouteur in droit_de_parler[parleur] :
+                return True, ""
+            else:
+                return False ,f"\nTu n'as pas le droit de parler avec **{ecouteur}**, vérifie l'orthographe du destinataire ?\n{a_qui_tu_as_droit_de_parler(parleur)}"
+        else:
+            return False , f"\nTu n'as le droit de parler avec personne a priori"
+    except:
+        return False, '''\nIl m'est arrivé un problème sur le chemin :ghost:, contacte vite @Brother ou @Ardoria pour m'aider!'''
 
 def trouver_les_peuples_du_groupe(parleur,groupe):
     peuple_target=[]
@@ -37,6 +44,20 @@ def trouver_les_peuples_du_groupe(parleur,groupe):
             if groupe in droit_de_parler[peuple]:
                 peuple_target.append(peuple)
     return peuple_target
+
+def a_qui_tu_as_droit_de_parler(parleur):
+    if parleur in droit_de_parler:
+        if len(droit_de_parler[parleur]) > 0 :
+            msg='''Tu as le droit de parler à:'''
+            for groupe in droit_de_parler[parleur]:
+                if groupe in groupes_de_discussion :
+                    msg=msg+f"\n    [+] {groupe} -> {trouver_les_peuples_du_groupe(parleur,groupe)}"
+                else:
+                    msg=msg+f"\n    [+] {groupe}"
+            return msg
+    return ''':warning: Il semble que tu n'as le droit de parler à personne'''
+
+
 
 
 def help_message(parleur):
@@ -50,18 +71,7 @@ Tu dois ensuite recevoir un message de **confirmation** de ma part sinon, c'est 
 (tips): Pour écrire un message de plus d'une ligne, appuyer sur `shift+enter` pour ajouter une nouvelle ligne.
 
 '''
-    if parleur in droit_de_parler:
-        if len(droit_de_parler[parleur]) > 0 :
-            msg=msg+'''Tu as le droit de parler à:'''
-            for groupe in droit_de_parler[parleur]:
-                if groupe in groupes_de_discussion :
-                    msg=msg+f"\n    [+] {groupe} -> {trouver_les_peuples_du_groupe(parleur,groupe)}"
-                else:
-                    msg=msg+f"\n    [+] {groupe}"
-        else:
-            msg=msg+'''Il semble que tu n'as le droit de parler à personne'''
-    else:
-        msg=msg+'''Il semble que tu n'as le droit de parler à personne'''
+    msg=msg+a_qui_tu_as_droit_de_parler(parleur)
     return msg
 
 client = discord.Client(intents=discord.Intents.default())
@@ -104,20 +114,19 @@ async def on_message(message):
                     # on envoit à tout les peuples, un par un
                     for channel_peuple_cible in liste_peuple_cible:
                         message_send=False
-                        message_fail_reason='raison inconnue'
-                        if verifier_droit_parler(str(channel_peuple_source),channel_peuple_cible) or message_de_groupe:
+                        verif_parler , message_fail_reason = verifier_droit_parler(str(channel_peuple_source),channel_peuple_cible) 
+                        if verif_parler or message_de_groupe:
                             for channel in client.get_all_channels():
                                 # on trouve le channel cible
                                 if channel.name==channel_peuple_cible:
                                     await channel.send( f"Message provenant de {channel_peuple_source} {groupe}: {message_txt}")
-                                    resultat=f"Message bien envoyé à {channel_peuple_cible} par {channel_peuple_source}"
+                                    resultat=f":white_check_mark: Message bien envoyé à {channel_peuple_cible} par {channel_peuple_source}"
                                     logger.info(resultat)
                                     await message.channel.send(resultat)
                                     message_send=True
-                        else :
-                            message_fail_reason=f"interdit de parler à {channel_peuple_cible}"
+
                         if not message_send:
-                            resultat=f"Message non envoyé à {channel_peuple_cible} par {channel_peuple_source}, à cause de: {message_fail_reason}"
+                            resultat=f":warning: Message non envoyé à {channel_peuple_cible} par {channel_peuple_source}, à cause de:{message_fail_reason}"
                             logger.warning(resultat)
                             await message.channel.send(resultat)
     except:

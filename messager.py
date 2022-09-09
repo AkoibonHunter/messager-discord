@@ -51,9 +51,9 @@ def a_qui_tu_as_droit_de_parler(parleur):
             msg='''Tu as le droit de parler à:'''
             for groupe in droit_de_parler[parleur]:
                 if groupe in groupes_de_discussion :
-                    msg=msg+f"\n    [+] {groupe} -> {trouver_les_peuples_du_groupe(parleur,groupe)}"
+                    msg=msg+f"\n    [+] **{groupe}** -> {trouver_les_peuples_du_groupe(parleur,groupe)}"
                 else:
-                    msg=msg+f"\n    [+] {groupe}"
+                    msg=msg+f"\n    [+] **{groupe}**"
             return msg
     return ''':warning: Il semble que tu n'as le droit de parler à personne'''
 

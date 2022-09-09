@@ -40,11 +40,12 @@ def trouver_les_peuples_du_groupe(parleur,groupe):
 
 
 def help_message(parleur):
-    msg='''Bonjour je suis le messager de Titania,
+    msg='''Bien le bonjour :slight_smile: ,
+Je suis le messager de Titania :eagle: :envelope: .
 
 Pour parler à un peuple ou conseil en passant par moi, écrit : `@messager-titania nom_peuple_cible : message_a_envoyer`
 - exemple: ```@messager-titania peuple-sirene : nous vous remercions pour les chants```
-Tu dois ensuite recevoir un message de confirmation de ma part sinon, c'est que quelque chose s'est mal passé sur mon chemin. préviens vite ton MJ.
+Tu dois ensuite recevoir un message de **confirmation** de ma part sinon, c'est que quelque chose s'est mal passé sur mon chemin :ghost:. préviens vite ton MJ.
 
 (tips): Pour écrire un message de plus d'une ligne, appuyer sur `shift+enter` pour ajouter une nouvelle ligne.
 

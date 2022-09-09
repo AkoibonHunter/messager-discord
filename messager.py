@@ -40,18 +40,23 @@ def trouver_les_peuples_du_groupe(parleur,groupe):
 
 
 def help_message(parleur):
-    msg='''Pour parler à un peuple ou conseil en passant par le messager, écrit : `@messager-titania1 nom_peuple_cible : message_a_envoyer`
-- exemple: ```@messager-titania1 peuple-sirene : nous vous remercions pour les chants```
-Tu dois ensuite recevoir un message de confirmation du messager sinon, préviens ton MJ.
+    msg='''Bonjour je suis le messager de Titania,
 
-(tips): Pour écrire un message de plus d'une ligne, prépare le message quelque part sur un brouillon, et copie/colle le après les ':'
+Pour parler à un peuple ou conseil en passant par moi, écrit : `@messager-titania nom_peuple_cible : message_a_envoyer`
+- exemple: ```@messager-titania peuple-sirene : nous vous remercions pour les chants```
+Tu dois ensuite recevoir un message de confirmation de ma part sinon, c'est que quelque chose s'est mal passé sur mon chemin. préviens vite ton MJ.
+
+(tips): Pour écrire un message de plus d'une ligne, appuyer sur `shift+enter` pour ajouter une nouvelle ligne.
 
 '''
     if parleur in droit_de_parler:
         if len(droit_de_parler[parleur]) > 0 :
             msg=msg+'''Tu as le droit de parler à:'''
-            for i in droit_de_parler[parleur]:
-                msg=msg+"\n    [+] "+i
+            for groupe in droit_de_parler[parleur]:
+                if groupe in groupes_de_discussion :
+                    msg=msg+f"\n    [+] {groupe} -> {trouver_les_peuples_du_groupe(parleur,groupe)}"
+                else:
+                    msg=msg+f"\n    [+] {groupe}"
         else:
             msg=msg+'''Il semble que tu n'as le droit de parler à personne'''
     else:

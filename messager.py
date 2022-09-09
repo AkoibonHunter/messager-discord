@@ -126,7 +126,7 @@ async def on_message(message):
                                     message_send=True
 
                         if not message_send:
-                            resultat=f":warning: Message non envoyé à {channel_peuple_cible} par {channel_peuple_source}, à cause de:{message_fail_reason}"
+                            resultat=f":warning: Message non envoyé à: **{channel_peuple_cible}** par **{channel_peuple_source}**, à cause de:{message_fail_reason}"
                             logger.warning(resultat)
                             await message.channel.send(resultat)
     except:

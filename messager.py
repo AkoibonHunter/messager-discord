@@ -103,7 +103,7 @@ async def on_message(message):
                     if cible in groupes_de_discussion:
                         # on retrouve tout les peuples destinataires
                         liste_peuple_cible=trouver_les_peuples_du_groupe(channel_peuple_source,cible)
-                        groupe=f"(envoyé à tout {cible}) "
+                        groupe=f"(envoyé à tout **{cible}**) "
                         message_de_groupe=True
                     else:
                         # message uniquement pour 1 peuple
@@ -119,7 +119,7 @@ async def on_message(message):
                             for channel in client.get_all_channels():
                                 # on trouve le channel cible
                                 if channel.name==channel_peuple_cible:
-                                    await channel.send( f"Message provenant de {channel_peuple_source} {groupe}: {message_txt}")
+                                    await channel.send( f"Message provenant de **{channel_peuple_source}** {groupe}: {message_txt}")
                                     resultat=f":white_check_mark: Message bien envoyé à **{channel_peuple_cible}** par **{channel_peuple_source}**"
                                     logger.info(resultat)
                                     await message.channel.send(resultat)

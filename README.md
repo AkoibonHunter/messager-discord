@@ -19,3 +19,7 @@ Il faut avoir un `TOKEN` discord (création d'une APP puis création d'un bot). 
 ┌──(kali㉿kali)-[~/messager-discord]
 └─$ python3 messager.py
 ```
+
+## images
+
+![messager-titania](https://github.com/AkoibonHunter/messager-discord/raw/main/messager.png)

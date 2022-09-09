@@ -120,7 +120,7 @@ async def on_message(message):
                                 # on trouve le channel cible
                                 if channel.name==channel_peuple_cible:
                                     await channel.send( f"Message provenant de {channel_peuple_source} {groupe}: {message_txt}")
-                                    resultat=f":white_check_mark: Message bien envoyé à {channel_peuple_cible} par {channel_peuple_source}"
+                                    resultat=f":white_check_mark: Message bien envoyé à **{channel_peuple_cible}** par **{channel_peuple_source}**"
                                     logger.info(resultat)
                                     await message.channel.send(resultat)
                                     message_send=True

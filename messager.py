@@ -91,11 +91,12 @@ async def on_message(message):
                 # on test si il n'y a que le nom du bot dans le message (vide)
                 if len(m) == 0:
                     # on fait peter l'aide
-                    logger.info(f"on envoit l'aide pour {message.channel}")
-                    await message.channel.send(help_message(str(message.channel)))
+                    channel_peuple_source= str(message.channel).replace('-message','')
+                    logger.info(f"on envoit l'aide pour {channel_peuple_source}")
+                    await message.channel.send(help_message(str(channel_peuple_source)))
                 else:
                     # on récupére les infos du message
-                    channel_peuple_source= str(message.channel)
+                    channel_peuple_source= str(message.channel).replace('-message','')
                     cible=f"{message.content}".split(":")[0].split(">")[1].strip()
                     message_txt=":".join(f"{message.content}".split(":")[1:]).strip()
                     
@@ -114,24 +115,46 @@ async def on_message(message):
                     # on envoit à tout les peuples, un par un
                     for channel_peuple_cible in liste_peuple_cible:
                         message_send=False
-                        verif_parler , message_fail_reason = verifier_droit_parler(str(channel_peuple_source),channel_peuple_cible) 
+                        verif_parler , message_fail_reason = verifier_droit_parler(str(channel_peuple_source),channel_peuple_cible)
+                        
+                        canal_sans_discussion = False
+                        canal_discussion = False
                         if verif_parler or message_de_groupe:
                             for channel in client.get_all_channels():
                                 # on trouve le channel cible
-                                if channel.name==channel_peuple_cible:
-                                    await channel.send( f":envelope: Message provenant de **{channel_peuple_source}** {groupe}: {message_txt}")
-                                    resultat=f":white_check_mark: Message bien envoyé à **{channel_peuple_cible}** par **{channel_peuple_source}**"
-                                    logger.info(resultat)
-                                    await message.channel.send(resultat)
-                                    message_send=True
+                                if channel.name==channel_peuple_cible :
+                                    canal_sans_discussion = channel
+                                if channel.name==f'{channel_peuple_cible}-discussion' :
+                                    canal_discussion = channel
+
+                            
+                            channel_peuple_source = channel_peuple_source.replace('-discussion','')
+
+                            if canal_sans_discussion or canal_discussion:
+                                if canal_discussion:
+                                    send_channel=canal_discussion
+                                else:
+                                    send_channel=canal_sans_discussion
+
+                                await send_channel.send( f":envelope: Message provenant de **{channel_peuple_source}** {groupe}: {message_txt}")
+                                resultat=f":white_check_mark: Message bien envoyé à **{channel_peuple_cible}** par **{channel_peuple_source}**"
+                                logger.info(resultat)
+                                await message.channel.send(resultat)
+                                message_send=True
+                            else:
+                                message_fail_reason=f"\nPas trouvé le destinataire **{channel_peuple_cible}** mais droit de parler accordés"
 
                         if not message_send:
+                            channel_peuple_source = channel_peuple_source.replace('-discussion','')
                             resultat=f":warning: Message non envoyé à: **{channel_peuple_cible}** par **{channel_peuple_source}**, à cause de:{message_fail_reason}"
                             logger.warning(resultat)
                             await message.channel.send(resultat)
     except:
         err = traceback.format_exc().replace("\n", "|")
         logger.error(err)
+        resultat=f''':warning: Message non envoyé à: **{channel_peuple_cible}** par **{channel_peuple_source}**, à cause de:\n{err.split("|")[-2]}'''
+        await message.channel.send(resultat)
+
 
 # on retrouve le logger de discord
 logger = logging.getLogger('discord')

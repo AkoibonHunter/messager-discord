@@ -152,7 +152,7 @@ async def on_message(message):
     except:
         err = traceback.format_exc().replace("\n", "|")
         logger.error(err)
-        resultat=f''':warning: Message non envoyé à: **{channel_peuple_cible}** par **{channel_peuple_source}**, à cause de:\n{err.split("|")[-2]}'''
+        resultat=f''':warning: Message non envoyé à: **{channel_peuple_cible}** par **{channel_peuple_source}**, à cause de:\n{' '.join(err.split("|")[-2:])}'''
         await message.channel.send(resultat)
 
 

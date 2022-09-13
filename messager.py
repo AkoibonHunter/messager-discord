@@ -124,11 +124,11 @@ async def on_message(message):
                                 # on trouve le channel cible
                                 if channel.name==channel_peuple_cible :
                                     canal_sans_discussion = channel
-                                if channel.name==f'{channel_peuple_cible}-discussion' :
+                                if channel.name==f'{channel_peuple_cible}-message' :
                                     canal_discussion = channel
 
                             
-                            channel_peuple_source = channel_peuple_source.replace('-discussion','')
+                            channel_peuple_source = channel_peuple_source.replace('-message','')
 
                             if canal_sans_discussion or canal_discussion:
                                 if canal_discussion:
@@ -145,7 +145,7 @@ async def on_message(message):
                                 message_fail_reason=f"\nPas trouvé le destinataire **{channel_peuple_cible}** mais droit de parler accordés"
 
                         if not message_send:
-                            channel_peuple_source = channel_peuple_source.replace('-discussion','')
+                            channel_peuple_source = channel_peuple_source.replace('-message','')
                             resultat=f":warning: Message non envoyé à: **{channel_peuple_cible}** par **{channel_peuple_source}**, à cause de:{message_fail_reason}"
                             logger.warning(resultat)
                             await message.channel.send(resultat)
